@@ -1,0 +1,19 @@
+http://localhost:8080/categories?order=category_id&page=1&limit=2
+http://localhost:8080/categories?order=name&page=1&limit=2
+http://localhost:8080/categories/5
+http://localhost:8080/categories/inProduct/1
+http://localhost:8080/categories/inDepartment/1
+
+http://localhost:8080/attributes
+http://localhost:8080/attributes/2
+http://localhost:8080/attributes/values/1
+http://localhost:8080/attributes/inProduct/1
+
+http://localhost:8080/products?page=1&limit=10&description_length=10
+http://localhost:8080/products/search?page=1&limit=100&description_length=10&query_string=b&all_words=off
+http://localhost:8080/products/10
+http://localhost:8080/products/inCategory/4
+http://localhost:8080/products/inDepartment/1
+http://localhost:8080/products/details/1 -- //
+http://localhost:8080/products/1/locations
+http://localhost:8080/products/1/reviews
