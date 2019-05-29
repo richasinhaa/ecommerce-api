@@ -1,11 +1,16 @@
 package com.turing.turingproject.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +21,7 @@ import com.turing.turingproject.model.CustomerReview;
 import com.turing.turingproject.model.Product;
 import com.turing.turingproject.model.ProductLocation;
 import com.turing.turingproject.model.Result;
+import com.turing.turingproject.model.Review;
 import com.turing.turingproject.repository.ProductRepository;
 import com.turing.turingproject.repository.ReviewRepository;
 
@@ -91,6 +97,19 @@ public class ProductController {
 	@GetMapping("/{product_id}/reviews")
 	public List<CustomerReview> getReviewsByProductId(@PathVariable(value = "product_id", required = true) Long productId) {
 		return productManager.getReviewsByProductId(productId);
+	}
+	
+	// Create a new Review
+	@PostMapping("/{product_id}/reviews")
+	public void createReview(@PathVariable(value = "product_id", required = true) Long productId, @Valid @RequestBody Review review) {
+		review.setProductId(productId);
+		Date date = new Date();
+		review.setCreatedOn(date);
+		try {
+			reviewRepository.save(review);
+		}catch(Exception e) {
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
+		}
 	}
 
 }

@@ -32,7 +32,6 @@ public class Customer implements Serializable {
 	@NotBlank
 	private String password;
 	
-	@NotBlank
 	@JsonProperty("credit_card")
 	private String creditCard;
 	
@@ -60,6 +59,29 @@ public class Customer implements Serializable {
 	
 	@JsonProperty("mob_phone")
 	private String mobPhone;
+	
+	public Customer() {
+		super();
+	}
+
+	public Customer(@NotBlank String name, @NotBlank String email, @NotBlank String password,
+			String creditCard, String address1, String address2, String city, String region,
+			String postalCode, int shippingRegionId, String dayPhone, String evePhone, String mobPhone) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.creditCard = creditCard;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.city = city;
+		this.region = region;
+		this.postalCode = postalCode;
+		this.shippingRegionId = shippingRegionId;
+		this.dayPhone = dayPhone;
+		this.evePhone = evePhone;
+		this.mobPhone = mobPhone;
+	}
 
 	public Long getCustomerId() {
 		return customerId;

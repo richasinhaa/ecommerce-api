@@ -16,4 +16,170 @@ http://localhost:8080/products/inCategory/4
 http://localhost:8080/products/inDepartment/1
 http://localhost:8080/products/details/1 -- //
 http://localhost:8080/products/1/locations
-http://localhost:8080/products/1/reviews
+http://localhost:8080/products/1/reviews 
+http://localhost:8080/products/1/reviews [POST][Authentication required]
+{
+	"review" : "dummy review",
+	"rating" : "5",
+	"customer_id" : 1
+}
+
+
+http://localhost:8080/customer
+
+Request :
+
+{
+	"name" : "Richa.S",
+	"email" : "richaa@gmail.com",
+	"password" : "abc"
+}
+
+Response : 
+{
+    "customer": {
+        "name": "Richa.S",
+        "email": "richaa@gmail.com",
+        "password": "$2a$10$B6KBLysDY2nrN0eesvbrEOpxA8plc4GtygScjBeow6/GEqvPtPQs2",
+        "city": null,
+        "region": null,
+        "customer_id": 13,
+        "credit_card": null,
+        "address_1": null,
+        "address_2": null,
+        "postal_code": null,
+        "shipping_region_id": 0,
+        "day_phone": null,
+        "eve_phone": null,
+        "mob_phone": null
+    },
+    "accessToken": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyaWNoYWFAZ21haWwuY29tIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNTU5MTEzNDc4fQ.QhPBBXHlzlgDERLHMu-uK_zMtNF1pO7S2nriNSRWaM4",
+    "expires_in": "24h"
+}
+
+
+http://localhost:8080/customers/login
+Request: {
+	"email" : "richaa@gmail.com",
+	"password" : "abc"
+}
+Response : 
+{
+    "customer": {
+        "name": "Richa.S",
+        "email": "richaa@gmail.com",
+        "password": "$2a$10$B6KBLysDY2nrN0eesvbrEOpxA8plc4GtygScjBeow6/GEqvPtPQs2",
+        "city": null,
+        "region": null,
+        "customer_id": 13,
+        "credit_card": null,
+        "address_1": null,
+        "address_2": null,
+        "postal_code": null,
+        "shipping_region_id": 0,
+        "day_phone": null,
+        "eve_phone": null,
+        "mob_phone": null
+    },
+    "accessToken": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyaWNoYWFAZ21haWwuY29tIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNTU5MTE0NzkyfQ.EyV8adaKiEEE-KXMqxANia7DYyFKLZ0TGefT7SizGBw",
+    "expires_in": "24h"
+}
+http://localhost:8080/customer/1 [PUT]
+Request:
+{
+	"customer_id" : "1",
+	"name" : "Richa Sinha",
+	"email" : "richaa@gmail.com",
+	"password": "$2a$10$B6KBLysDY2nrN0eesvbrEOpxA8plc4GtygScjBeow6/GEqvPtPQs2",
+	"city" : "Singapore"
+}
+Response:
+{
+	"name":"Richa Sinha",
+	"email":"richaa@gmail.com",
+	"password":"$2a$10$B6KBLysDY2nrN0eesvbrEOpxA8plc4GtygScjBeow6/GEqvPtPQs2",
+	"city":"Singapore",
+	"region":null,
+	"customer_id":1,
+	"credit_card":null,
+	"address_1":null,
+	"address_2":null,
+	"postal_code":null,
+	"shipping_region_id":0,
+	"day_phone":null,
+	"eve_phone":null,
+	"mob_phone":null
+}
+
+http://localhost:8080/customer/13
+
+http://localhost:8080/customers/address/13 [PUT]
+Request:
+{
+	"customer_id" : "1",
+	"name" : "Richa Sinha",
+	"email" : "richaa@gmail.com",
+	"password": "$2a$10$B6KBLysDY2nrN0eesvbrEOpxA8plc4GtygScjBeow6/GEqvPtPQs2",
+	"city" : "Singapore",
+	"region" : "Singapore"
+ }
+ 
+Response:
+{
+    "name": "Richa Sinha",
+    "email": "richaa@gmail.com",
+    "password": "$2a$10$B6KBLysDY2nrN0eesvbrEOpxA8plc4GtygScjBeow6/GEqvPtPQs2",
+    "city": "Singapore",
+    "region": "Singapore",
+    "customer_id": 13,
+    "credit_card": null,
+    "address_1": null,
+    "address_2": null,
+    "postal_code": null,
+    "shipping_region_id": 0,
+    "day_phone": null,
+    "eve_phone": null,
+    "mob_phone": null
+}
+
+http://localhost:8080/customers/creditCard/13 [PUT]
+Request:
+{
+	"customer_id" : "1",
+	"name" : "Richa Sinha",
+	"email" : "richaa@gmail.com",
+	"password": "$2a$10$B6KBLysDY2nrN0eesvbrEOpxA8plc4GtygScjBeow6/GEqvPtPQs2",
+	"credit_card":"1234 5678"
+ }
+ 
+Response:
+{
+    "name": "Richa Sinha",
+    "email": "richaa@gmail.com",
+    "password": "$2a$10$B6KBLysDY2nrN0eesvbrEOpxA8plc4GtygScjBeow6/GEqvPtPQs2",
+    "city": "Singapore",
+    "region": "Singapore",
+    "customer_id": 13,
+    "credit_card": "1234 5678",
+    "address_1": null,
+    "address_2": null,
+    "postal_code": null,
+    "shipping_region_id": 0,
+    "day_phone": null,
+    "eve_phone": null,
+    "mob_phone": null
+}
+
+
+curl -X PUT -H "X-Requested-With: XMLHttpRequest" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '
+ {
+	"customer_id" : "1",
+	"name" : "Richa Sinha",
+	"email" : "richaa@gmail.com",
+	"password": "$2a$10$B6KBLysDY2nrN0eesvbrEOpxA8plc4GtygScjBeow6/GEqvPtPQs2",
+	"city" : "Singapore",
+	"region" : "Singapore",
+	"credit_card":"1234 5678"
+ }' "http://localhost:8080/customers/creditCard/13"
+
+

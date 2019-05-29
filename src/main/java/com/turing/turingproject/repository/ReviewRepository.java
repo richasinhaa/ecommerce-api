@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.turing.turingproject.model.CustomerReview;
+import com.turing.turingproject.model.Review;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<CustomerReview, Long> {
+public interface ReviewRepository extends JpaRepository<Review, Long>{
 	
 	@Query("SELECT new com.turing.turingproject.model.CustomerReview("
 			+ "c.name as customerName, r.review as review,"
