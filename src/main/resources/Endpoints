@@ -170,16 +170,68 @@ Response:
     "mob_phone": null
 }
 
+http://localhost:8080/shoppingcart/generateUniqueId
+http://localhost:8080/shoppingcart/add
+Request:
+{
+	"cart_id" : "3jcf2jhhica4fba-3agd4gbic375c2c",
+	"product_id" : "1",
+	"attributes" : "abcd"
+}
+
+Response:
+{
+    "attributes": "abcd",
+    "quantity": 1,
+    "item_id": 13,
+    "cart_id": "3jcf2jhhica4fba-3agd4gbic375c2c",
+    "product_id": 1,
+    "buy_now": 1,
+    "added_on": "2019-05-29T14:03:27.468+0000",
+    "subtotal": 14.99,
+    "image": "arc-d-triomphe.gif"
+
+}
+
+http://localhost:8080/shoppingcart/3jcf2jhhica4fba-3agd4gbic375c2c
+
+http://localhost:8080/shoppingcart/update/8 [PUT]
+Request:
+{
+"customer_id" : "1",
+"quantity" : 10
+ }
+Response:
+[
+  {
+    "attributes": "abcd",
+    "quantity": 10,
+    "item_id": 8,
+    "cart_id": "3jcf2jhhica4fba-3agd4gbic375c2c",
+    "product_id": 1,
+    "buy_now": 1,
+    "added_on": "2019-05-29T13:47:58.000+0000",
+    "subtotal": null,
+    "image": null
+  }
+]
+
+http://localhost:8080/shoppingcart/empty/3jcf2jhhica4fba-3agd4gbic375c2c [DELETE]
+
+[Not clear on what to do] :
+GET /shoppingcart​/moveToCart​/{item_id} Move a product to cart
+
+http://localhost:8080/shoppingcart/totalAmount/-47h177f346b75bc-3d3d9jd27hf7304
+http://localhost:8080/shoppingcart/saveForLater/18
+http://localhost:8080/shoppingcart/getSaved/-47h177f346b75bc-3d3d9jd27hf7304
+http://localhost:8080/shoppingcart/removeProduct/16 [DELETE]
+
+
 
 curl -X PUT -H "X-Requested-With: XMLHttpRequest" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '
  {
 	"customer_id" : "1",
-	"name" : "Richa Sinha",
-	"email" : "richaa@gmail.com",
-	"password": "$2a$10$B6KBLysDY2nrN0eesvbrEOpxA8plc4GtygScjBeow6/GEqvPtPQs2",
-	"city" : "Singapore",
-	"region" : "Singapore",
-	"credit_card":"1234 5678"
- }' "http://localhost:8080/customers/creditCard/13"
+	"quantity" : 10
+ }' "http://localhost:8080/shoppingcart/update/8"
 
 
