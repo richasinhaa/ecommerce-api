@@ -244,9 +244,20 @@ Response:
 
 http://localhost:8080/orders/3
 
-/orders/inCustomer [TODO]
+http://localhost:8080/orders/inCustomer
 
 http://localhost:8080/orders/shortDetail/3
+
+http://localhost:8080/stripe/charge [POST]
+Request:
+{
+	"stripeToken" : "tok_sg",
+	"orderId" : "6",
+	"description" : "payment for order id 6",
+    "amount" : 100,
+    "currency" : "USD"
+}
+
 
 
 

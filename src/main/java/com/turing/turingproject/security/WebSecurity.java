@@ -52,6 +52,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/orders").authenticated()
 				.antMatchers(HttpMethod.POST, "/orders/**").authenticated()
 				.antMatchers(HttpMethod.POST, "/products/**").authenticated()
+				.antMatchers(HttpMethod.GET, "/orders/inCustomer").authenticated()
 				.anyRequest().permitAll()
 				.and()
 				.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())

@@ -1,6 +1,7 @@
 package com.turing.turingproject.manager;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -121,6 +122,24 @@ public class OrderManager {
 		}
 		
 		return response.getOrderId();
+	}
+
+
+	public List<Order> getOrdersForCustomer(Authentication authentication) {
+		String email = authentication.getPrincipal().toString();
+		Long customerId = null;
+		if(email != null) {
+			Customer user = customerRepository.findByEmail(email);
+			if(user != null) {
+				customerId = user.getCustomerId();
+			}
+		} else {
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "300");
+		}
+		
+		List<Order> list = orderRepository.findByCustomerId(customerId);
+		
+		return list;
 	}
 
 }

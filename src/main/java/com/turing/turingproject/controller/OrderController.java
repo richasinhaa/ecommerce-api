@@ -1,5 +1,7 @@
 package com.turing.turingproject.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.json.JSONException;
@@ -39,7 +41,7 @@ public class OrderController {
 			orderId = orderManager.createOrder(request,authentication);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "600");
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 		
 		JSONObject json;
@@ -47,7 +49,7 @@ public class OrderController {
 			json = new JSONObject();
 			json.put("order_id", String.valueOf(orderId));
 		} catch (JSONException e) {
-			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "700");
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 
 		return new ResponseEntity<String>(json.toString(), HttpStatus.OK);
@@ -60,11 +62,11 @@ public class OrderController {
 		try {
 			order = orderRepository.findById(orderId).get();
 		} catch (Exception e) {
-			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "700");
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 
 		if (order == null) {
-			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "700");
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 
 		JSONObject json;
@@ -78,7 +80,7 @@ public class OrderController {
 			json.put("product_name", String.valueOf(order.getDetail().getProductName()));
 			json.put("unit_cost", String.valueOf(order.getDetail().getUnitCost()));
 		} catch (JSONException e) {
-			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "700");
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 
 		return new ResponseEntity<String>(json.toString(), HttpStatus.OK);
@@ -92,11 +94,11 @@ public class OrderController {
 		try {
 			order = orderRepository.findById(orderId).get();
 		} catch (Exception e) {
-			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "700");
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 
 		if (order == null) {
-			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "700");
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 
 		String status = order.getStatus() == 0 ? "un-paid" : "paid";
@@ -111,10 +113,28 @@ public class OrderController {
 			json.put("status", status);
 			json.put("name", "Test");
 		} catch (JSONException e) {
-			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "700");
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 
 		return new ResponseEntity<String>(json.toString(), HttpStatus.OK);
 
 	}
+	
+	//Get Orders For Authenticated Customer
+		@GetMapping("/inCustomer")
+		public List<Order> getOrderForCustomer(Authentication authentication) {
+			List<Order> list = null;
+			try {
+				list = orderManager.getOrdersForCustomer(authentication);
+			} catch(Exception e) {
+				e.printStackTrace();
+				throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
+			}
+			
+			if(list == null) {
+				throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
+			}
+			
+			return list;
+		}
 }
