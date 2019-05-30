@@ -1,5 +1,9 @@
 package com.turing.turingproject.security;
 
+import static com.turing.turingproject.security.SecurityConstants.LOGIN_URL;
+import static com.turing.turingproject.security.SecurityConstants.SIGN_UP_URL;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,13 +13,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.turing.turingproject.manager.CustomerManager;
-import static com.turing.turingproject.security.SecurityConstants.SIGN_UP_URL;
-import static com.turing.turingproject.security.SecurityConstants.LOGIN_URL;
 
 @Configuration
 @EnableWebSecurity
@@ -24,10 +27,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	CustomerManager customerManager;
 
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-
-	public WebSecurity(CustomerManager customerManager, BCryptPasswordEncoder bCryptPasswordEncoder) {
+	
+	private final ApplicationSecurityConfigurerParams configurerParams;
+	
+	@Autowired
+	public WebSecurity(CustomerManager customerManager, BCryptPasswordEncoder bCryptPasswordEncoder, 
+			ApplicationSecurityConfigurerParams configurerParams) {
 		this.customerManager = customerManager;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.configurerParams = configurerParams;
 	}
 
 	@Override
@@ -37,11 +45,19 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 						"/**/*.css", "/**/*.js").permitAll()
 				.antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
 				.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
-				.antMatchers(HttpMethod.GET).permitAll()
-				.antMatchers(HttpMethod.PUT).permitAll()
+				.antMatchers(HttpMethod.PUT, "/customer/**").authenticated()
+				.antMatchers(HttpMethod.GET, "/customer/**").authenticated()
+				.antMatchers(HttpMethod.PUT, "/customers/address/**").authenticated()
+				.antMatchers(HttpMethod.PUT, "/customers/creditCard/**").authenticated()
+				.antMatchers(HttpMethod.POST, "/orders").authenticated()
+				.antMatchers(HttpMethod.POST, "/orders/**").authenticated()
+				.antMatchers(HttpMethod.POST, "/products/**").authenticated()
 				.anyRequest().permitAll()
 				.and()
-				.addFilter(new JWTAuthenticationFilter()).addFilter(new JWTAuthorizationFilter(authenticationManager()))
+				.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
+                .and()
+				.addFilter(new JWTAuthenticationFilter()).addFilter(new JWTAuthorizationFilter(authenticationManager(), 
+						configurerParams))
 				// this disables session creation on Spring Security
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
@@ -57,5 +73,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 		return source;
 	}
-
+	
+	@Bean
+    public AuthenticationEntryPoint authenticationEntryPoint(){
+        return new CustomAuthenticationEntryPoint();
+    }
 }

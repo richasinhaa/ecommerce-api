@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turing.turingproject.exception.ResourceNotFoundException;
-import com.turing.turingproject.model.Category;
 import com.turing.turingproject.model.Customer;
 import com.turing.turingproject.model.CustomerDTO;
 import com.turing.turingproject.repository.CustomerRepository;
+import com.turing.turingproject.security.ApplicationSecurityConfigurerParams;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -36,6 +36,9 @@ public class CustomerController {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	String jwtToken = "";
+	
+	@Autowired
+	ApplicationSecurityConfigurerParams configurerParams;
 
 	// Customer Registration
 	@PostMapping("/customers")
@@ -47,7 +50,7 @@ public class CustomerController {
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 
-		jwtToken = "Bearer " + Jwts.builder().setSubject(user.getEmail()).claim("roles", "user").setIssuedAt(new Date())
+		jwtToken = Jwts.builder().setSubject(user.getEmail()).claim("roles", "user").setIssuedAt(new Date())
 				.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
 
 		HttpHeaders headers = new HttpHeaders();
@@ -56,7 +59,7 @@ public class CustomerController {
 		CustomerDTO dto = new CustomerDTO();
 		Customer customer = customerRepository.findByName(user.getName());
 		dto.setCustomer(customer);
-		dto.setAccessToken(jwtToken);
+		dto.setAccessToken("Bearer "+jwtToken);
 		dto.setExpiresIn("24h");
 
 		return new ResponseEntity<CustomerDTO>(dto, headers, HttpStatus.OK);
@@ -89,15 +92,15 @@ public class CustomerController {
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 
-		jwtToken = "Bearer " + Jwts.builder().setSubject(customer.getEmail()).claim("roles", "user")
-				.setIssuedAt(new Date()).signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+		jwtToken = Jwts.builder().setSubject(customer.getEmail()).claim("roles", "user")
+				.setIssuedAt(new Date()).signWith(SignatureAlgorithm.HS256, configurerParams.getSecret()).compact();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("accessToken", jwtToken);
 
 		CustomerDTO dto = new CustomerDTO();
 		dto.setCustomer(customer);
-		dto.setAccessToken(jwtToken);
+		dto.setAccessToken("Bearer "+jwtToken);
 		dto.setExpiresIn("24h");
 
 		return new ResponseEntity<CustomerDTO>(dto, headers, HttpStatus.OK);

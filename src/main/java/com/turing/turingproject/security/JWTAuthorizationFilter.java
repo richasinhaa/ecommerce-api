@@ -1,9 +1,5 @@
 package com.turing.turingproject.security;
 
-import static com.turing.turingproject.security.SecurityConstants.HEADER_STRING;
-import static com.turing.turingproject.security.SecurityConstants.SECRET;
-import static com.turing.turingproject.security.SecurityConstants.TOKEN_PREFIX;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -17,39 +13,45 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	
-	public JWTAuthorizationFilter(AuthenticationManager authManager) {
-        super(authManager);
+	private final ApplicationSecurityConfigurerParams configurerParams;
+
+    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, ApplicationSecurityConfigurerParams configurerParams) {
+        super(authenticationManager);
+        this.configurerParams = configurerParams;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest req,
-                                    HttpServletResponse res,
-                                    FilterChain chain) throws IOException, ServletException {
-        String header = req.getHeader(HEADER_STRING);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        String header = request.getHeader(configurerParams.getHeader());
 
-        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
-            chain.doFilter(req, res);
+        if (header == null || !header.startsWith(configurerParams.getPrefix())) {
+            chain.doFilter(request, response);
             return;
         }
 
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+        UsernamePasswordAuthenticationToken authentication = null;
+        try {
+            authentication = getAuthentication(request);
+        } catch (JwtException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        chain.doFilter(req, res);
+        chain.doFilter(request, response);
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(HEADER_STRING);
+    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) throws JwtException, IllegalArgumentException {
+        String token = request.getHeader(configurerParams.getHeader());
         if (token != null) {
-            // parse the token.
-            String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
-                    .build()
-                    .verify(token.replace(TOKEN_PREFIX, ""))
+            String user = Jwts.parser()
+                    .setSigningKey(configurerParams.getSecret())
+                    .parseClaimsJws(token.replace(configurerParams.getPrefix(), ""))
+                    .getBody()
                     .getSubject();
 
             if (user != null) {

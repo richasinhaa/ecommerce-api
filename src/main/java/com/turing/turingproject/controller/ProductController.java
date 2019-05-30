@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.turing.turingproject.exception.ResourceNotFoundException;
 import com.turing.turingproject.manager.ProductManager;
+import com.turing.turingproject.model.Customer;
 import com.turing.turingproject.model.CustomerReview;
 import com.turing.turingproject.model.Product;
 import com.turing.turingproject.model.ProductLocation;
 import com.turing.turingproject.model.Result;
 import com.turing.turingproject.model.Review;
+import com.turing.turingproject.repository.CustomerRepository;
 import com.turing.turingproject.repository.ProductRepository;
 import com.turing.turingproject.repository.ReviewRepository;
 
@@ -34,9 +37,12 @@ public class ProductController {
 
 	@Autowired
 	ProductRepository productRepository;
-	
+
 	@Autowired
 	ReviewRepository reviewRepository;
+	
+	@Autowired
+	CustomerRepository customerRepository;
 
 	// Get All Products
 	@GetMapping("")
@@ -95,19 +101,29 @@ public class ProductController {
 
 	// Get Reviews For A Product
 	@GetMapping("/{product_id}/reviews")
-	public List<CustomerReview> getReviewsByProductId(@PathVariable(value = "product_id", required = true) Long productId) {
+	public List<CustomerReview> getReviewsByProductId(
+			@PathVariable(value = "product_id", required = true) Long productId) {
 		return productManager.getReviewsByProductId(productId);
 	}
-	
+
 	// Create a new Review
 	@PostMapping("/{product_id}/reviews")
-	public void createReview(@PathVariable(value = "product_id", required = true) Long productId, @Valid @RequestBody Review review) {
+	public void createReview(@PathVariable(value = "product_id", required = true) Long productId,
+			@Valid @RequestBody Review review, Authentication authentication) {
 		review.setProductId(productId);
-		Date date = new Date();
-		review.setCreatedOn(date);
+		review.setCreatedOn(new Date());
+		
+		//Fetch Authenticated User Id
+		try {
+			String email = authentication.getPrincipal().toString();
+			Customer customer = customerRepository.findByEmail(email);
+			review.setCustomerId(customer.getCustomerId());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		try {
 			reviewRepository.save(review);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 	}

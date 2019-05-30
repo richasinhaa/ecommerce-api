@@ -226,6 +226,28 @@ http://localhost:8080/shoppingcart/saveForLater/18
 http://localhost:8080/shoppingcart/getSaved/-47h177f346b75bc-3d3d9jd27hf7304
 http://localhost:8080/shoppingcart/removeProduct/16 [DELETE]
 
+http://localhost:8080/tax
+http://localhost:8080/tax/2
+
+http://localhost:8080/shipping/regions
+http://localhost:8080/shipping/regions/1
+
+http://localhost:8080/orders [POST]
+Request:
+{
+  "cart_id" : "-47h177f346b75bc-3d3d9jd27hf7304",
+  "shipping_id" : "2",
+  "tax_id" : "1"
+}
+Response:
+{"order_id":"1"}
+
+http://localhost:8080/orders/3
+
+/orders/inCustomer [TODO]
+
+http://localhost:8080/orders/shortDetail/3
+
 
 
 curl -X PUT -H "X-Requested-With: XMLHttpRequest" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '
