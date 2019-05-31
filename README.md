@@ -26,6 +26,28 @@ https://backendapi.turing.com/docs/
 ```
 Examples 
 ```
+Fetch All Departments
+[GET] /departments
+
+```
+[
+{
+name: "Regional",
+description: "Proud of your country? Wear a T-shirt with a national symbol stamp!",
+department_id: 1
+},
+{
+name: "Nature",
+description: "Find beautiful T-shirts with animals and flowers in our Nature department!",
+department_id: 2
+},
+{
+name: "Seasonal",
+description: "Each time of the year has a special flavor. Our seasonal T-shirts express traditional symbols using unique postal stamp pictures.",
+department_id: 3
+}
+]
+```
 
 Customer Registration :
 [GET] /customer
