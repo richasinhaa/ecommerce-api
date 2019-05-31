@@ -9,11 +9,11 @@ Backend service for an e-commerce system which allows users to search, add items
 
 ### Installation and running the service
 
-Install Java
-Install Maven
-Install Mysql
-Create spring boot stub using SpringInitializr (https://start.spring.io/)
-Import project in IDE
+* Install Java
+* Install Maven
+* Install Mysql
+* Create spring boot stub using SpringInitializr (https://start.spring.io/)
+* Import project in IDE
 
 ## Running the application
 
@@ -26,8 +26,8 @@ https://backendapi.turing.com/docs/
 ```
 Examples 
 ```
-Fetch All Departments
-[GET] /departments
+* Fetch All Departments
+* [GET] /departments
 
 ```
 [
@@ -49,8 +49,8 @@ department_id: 3
 ]
 ```
 
-Customer Registration :
-[GET] /customer
+*Customer Registration :
+* [GET] /customer
 
 ```
 Request :
@@ -84,8 +84,8 @@ Response :
 }
 
 ```
-Customer Login
-[GET] /customers/login
+* Customer Login
+* [GET] /customers/login
 
 ```
 Request: {
