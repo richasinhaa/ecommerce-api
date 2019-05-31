@@ -1,23 +1,26 @@
-http://localhost:8080/categories?order=category_id&page=1&limit=2
-http://localhost:8080/categories?order=name&page=1&limit=2
-http://localhost:8080/categories/5
-http://localhost:8080/categories/inProduct/1
-http://localhost:8080/categories/inDepartment/1
+[GET] /departments
+[GET] /departments/1
 
-http://localhost:8080/attributes
-http://localhost:8080/attributes/2
-http://localhost:8080/attributes/values/1
-http://localhost:8080/attributes/inProduct/1
+[GET] /categories?order=category_id&page=1&limit=2
+[GET] /categories?order=name&page=1&limit=2
+[GET] /categories/5
+[GET] /categories/inProduct/1
+[GET] /categories/inDepartment/1
 
-http://localhost:8080/products?page=1&limit=10&description_length=10
-http://localhost:8080/products/search?page=1&limit=100&description_length=10&query_string=b&all_words=off
-http://localhost:8080/products/10
-http://localhost:8080/products/inCategory/4
-http://localhost:8080/products/inDepartment/1
-http://localhost:8080/products/details/1 -- //
-http://localhost:8080/products/1/locations
-http://localhost:8080/products/1/reviews 
-http://localhost:8080/products/1/reviews [POST][Authentication required]
+[GET] /attributes
+[GET] /attributes/2
+[GET] /attributes/values/1
+[GET] /attributes/inProduct/1
+
+[GET] /products?page=1&limit=10&description_length=10
+[GET] /products/search?page=1&limit=100&description_length=10&query_string=b&all_words=off
+[GET] /products/10
+[GET] /products/inCategory/4
+[GET] /products/inDepartment/1
+[GET] /products/details/1 -- //
+[GET] /products/1/locations
+[GET] /products/1/reviews 
+[POST] /products/1/reviews
 {
 	"review" : "dummy review",
 	"rating" : "5",
@@ -25,7 +28,7 @@ http://localhost:8080/products/1/reviews [POST][Authentication required]
 }
 
 
-http://localhost:8080/customer
+[GET] /customer
 
 Request :
 
@@ -58,7 +61,7 @@ Response :
 }
 
 
-http://localhost:8080/customers/login
+[GET] /customers/login
 Request: {
 	"email" : "richaa@gmail.com",
 	"password" : "abc"
@@ -84,7 +87,7 @@ Response :
     "accessToken": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyaWNoYWFAZ21haWwuY29tIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNTU5MTE0NzkyfQ.EyV8adaKiEEE-KXMqxANia7DYyFKLZ0TGefT7SizGBw",
     "expires_in": "24h"
 }
-http://localhost:8080/customer/1 [PUT]
+[PUT] /customer/1 
 Request:
 {
 	"customer_id" : "1",
@@ -111,9 +114,9 @@ Response:
 	"mob_phone":null
 }
 
-http://localhost:8080/customer/13
+[GET] /customer/13
 
-http://localhost:8080/customers/address/13 [PUT]
+[PUT] /customers/address/13
 Request:
 {
 	"customer_id" : "1",
@@ -142,7 +145,7 @@ Response:
     "mob_phone": null
 }
 
-http://localhost:8080/customers/creditCard/13 [PUT]
+[PUT] /customers/creditCard/13
 Request:
 {
 	"customer_id" : "1",
@@ -170,8 +173,8 @@ Response:
     "mob_phone": null
 }
 
-http://localhost:8080/shoppingcart/generateUniqueId
-http://localhost:8080/shoppingcart/add
+[GET] /shoppingcart/generateUniqueId
+[POST] /shoppingcart/add
 Request:
 {
 	"cart_id" : "3jcf2jhhica4fba-3agd4gbic375c2c",
@@ -193,9 +196,9 @@ Response:
 
 }
 
-http://localhost:8080/shoppingcart/3jcf2jhhica4fba-3agd4gbic375c2c
+[GET] /shoppingcart/3jcf2jhhica4fba-3agd4gbic375c2c
 
-http://localhost:8080/shoppingcart/update/8 [PUT]
+[PUT] /shoppingcart/update/8 
 Request:
 {
 "customer_id" : "1",
@@ -216,23 +219,20 @@ Response:
   }
 ]
 
-http://localhost:8080/shoppingcart/empty/3jcf2jhhica4fba-3agd4gbic375c2c [DELETE]
+[DELETE] /shoppingcart/empty/3jcf2jhhica4fba-3agd4gbic375c2c
 
-[Not clear on what to do] :
-GET /shoppingcart​/moveToCart​/{item_id} Move a product to cart
+[GET] /shoppingcart/totalAmount/-47h177f346b75bc-3d3d9jd27hf7304
+[GET] /shoppingcart/saveForLater/18
+[GET] /shoppingcart/getSaved/-47h177f346b75bc-3d3d9jd27hf7304
+[DELETE] /shoppingcart/removeProduct/16 
 
-http://localhost:8080/shoppingcart/totalAmount/-47h177f346b75bc-3d3d9jd27hf7304
-http://localhost:8080/shoppingcart/saveForLater/18
-http://localhost:8080/shoppingcart/getSaved/-47h177f346b75bc-3d3d9jd27hf7304
-http://localhost:8080/shoppingcart/removeProduct/16 [DELETE]
+[GET] /tax
+[GET] /tax/2
 
-http://localhost:8080/tax
-http://localhost:8080/tax/2
+[GET] /shipping/regions
+[GET] /shipping/regions/1
 
-http://localhost:8080/shipping/regions
-http://localhost:8080/shipping/regions/1
-
-http://localhost:8080/orders [POST]
+[POST] /orders 
 Request:
 {
   "cart_id" : "-47h177f346b75bc-3d3d9jd27hf7304",
@@ -242,13 +242,13 @@ Request:
 Response:
 {"order_id":"1"}
 
-http://localhost:8080/orders/3
+[GET] /orders/3
 
-http://localhost:8080/orders/inCustomer
+[GET] /orders/inCustomer
 
-http://localhost:8080/orders/shortDetail/3
+GET] /orders/shortDetail/3
 
-http://localhost:8080/stripe/charge [POST]
+[GET] /stripe/charge [POST]
 Request:
 {
 	"stripeToken" : "tok_sg",
@@ -258,12 +258,7 @@ Request:
     "currency" : "USD"
 }
 
-http://localhost:8080/stripe/webhooks [Change url]
+[POST] /stripe/webhooks
 
-curl -X PUT -H "X-Requested-With: XMLHttpRequest" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '
- {
-	"customer_id" : "1",
-	"quantity" : 10
- }' "http://localhost:8080/shoppingcart/update/8"
 
 
