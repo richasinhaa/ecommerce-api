@@ -2,10 +2,10 @@ Backend service for an e-commerce system which allows users to search, add items
 
 ## Technology Stack
 
-Java
-Spring Boot
-Maven
-Mysql
+* Java
+* Spring Boot
+* Maven
+* Mysql
 
 ### Installation and running the service
 
