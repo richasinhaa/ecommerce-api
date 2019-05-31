@@ -28,7 +28,7 @@
 }
 
 
-[GET] /customer
+[POST] /customers
 
 Request :
 
