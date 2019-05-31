@@ -2,7 +2,6 @@ package com.turing.turingproject;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -14,7 +13,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.turing.turingproject.controller.CustomerController;
 import com.turing.turingproject.model.Customer;
-import com.turing.turingproject.model.Department;
 import com.turing.turingproject.repository.CustomerRepository;
 
 @RunWith(MockitoJUnitRunner.class)
