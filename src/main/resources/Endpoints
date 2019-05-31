@@ -258,8 +258,7 @@ Request:
     "currency" : "USD"
 }
 
-
-
+http://localhost:8080/stripe/webhooks [Change url]
 
 curl -X PUT -H "X-Requested-With: XMLHttpRequest" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '
  {

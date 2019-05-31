@@ -60,5 +60,4 @@ public class ShoppingCartManager {
 		return cart;
 
 	}
-
 }

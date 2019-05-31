@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.turing.turingproject.exception.ResourceNotFoundException;
 import com.turing.turingproject.manager.ShoppingCartManager;
 import com.turing.turingproject.model.CreateOrderRequest;
+import com.turing.turingproject.model.Customer;
 import com.turing.turingproject.model.Product;
 import com.turing.turingproject.model.ShoppingCart;
 import com.turing.turingproject.model.UpdateCartQuantityRequest;
+import com.turing.turingproject.repository.CustomerRepository;
 import com.turing.turingproject.repository.ProductRepository;
 import com.turing.turingproject.repository.ShoppingCartRepository;
 
@@ -40,6 +43,9 @@ public class ShoppingCartController {
 	
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	CustomerRepository customerRepository;
 
 	// Get Unique Cart Id
 	@GetMapping("/generateUniqueId")
@@ -190,5 +196,4 @@ public class ShoppingCartController {
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 	}
-
 }

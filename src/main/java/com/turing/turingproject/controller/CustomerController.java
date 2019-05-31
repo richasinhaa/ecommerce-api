@@ -36,7 +36,7 @@ public class CustomerController {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	String jwtToken = "";
-	
+
 	@Autowired
 	ApplicationSecurityConfigurerParams configurerParams;
 
@@ -59,7 +59,7 @@ public class CustomerController {
 		CustomerDTO dto = new CustomerDTO();
 		Customer customer = customerRepository.findByName(user.getName());
 		dto.setCustomer(customer);
-		dto.setAccessToken("Bearer "+jwtToken);
+		dto.setAccessToken("Bearer " + jwtToken);
 		dto.setExpiresIn("24h");
 
 		return new ResponseEntity<CustomerDTO>(dto, headers, HttpStatus.OK);
@@ -92,15 +92,15 @@ public class CustomerController {
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 
-		jwtToken = Jwts.builder().setSubject(customer.getEmail()).claim("roles", "user")
-				.setIssuedAt(new Date()).signWith(SignatureAlgorithm.HS256, configurerParams.getSecret()).compact();
+		jwtToken = Jwts.builder().setSubject(customer.getEmail()).claim("roles", "user").setIssuedAt(new Date())
+				.signWith(SignatureAlgorithm.HS256, configurerParams.getSecret()).compact();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("accessToken", jwtToken);
 
 		CustomerDTO dto = new CustomerDTO();
 		dto.setCustomer(customer);
-		dto.setAccessToken("Bearer "+jwtToken);
+		dto.setAccessToken("Bearer " + jwtToken);
 		dto.setExpiresIn("24h");
 
 		return new ResponseEntity<CustomerDTO>(dto, headers, HttpStatus.OK);
@@ -140,25 +140,25 @@ public class CustomerController {
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 
 		customerRepository.updateCustomer(customerId, customer.getName(), customer.getEmail(), customer.getCity(),
-				customer.getAddress1(),customer.getCreditCard());
+				customer.getAddress1(), customer.getCreditCard());
 
 		return customer;
 	}
-	
+
 	// Update Customer Address
-		@PutMapping("/customers/creditCard/{customer_id}")
-		public Customer updateCustomerCreditCard(@RequestBody Customer customer,
-				@PathVariable(value = "customer_id", required = true) Long customerId) {
+	@PutMapping("/customers/creditCard/{customer_id}")
+	public Customer updateCustomerCreditCard(@RequestBody Customer customer,
+			@PathVariable(value = "customer_id", required = true) Long customerId) {
 
-			Optional<Customer> cust = customerRepository.findById(customerId);
+		Optional<Customer> cust = customerRepository.findById(customerId);
 
-			if (!cust.isPresent())
-				throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
+		if (!cust.isPresent())
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 
-			customerRepository.updateCustomer(customerId, customer.getName(), customer.getEmail(), customer.getCity(),
-					customer.getAddress1(),customer.getCreditCard());
+		customerRepository.updateCustomer(customerId, customer.getName(), customer.getEmail(), customer.getCity(),
+				customer.getAddress1(), customer.getCreditCard());
 
-			return customer;
-		}
+		return customer;
+	}
 
 }
