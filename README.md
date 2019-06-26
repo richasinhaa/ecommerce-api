@@ -19,8 +19,8 @@ Backend service for an e-commerce system which allows users to search, add items
 
 mvn spring-boot:run
 
-![alt text](http://url/to/img.png)
-![alt text](http://url/to/img.png)
+![Screenshot](https://github.com/richasinhaa/Turing-Assignment/blob/master/src/main/resources/backend-architecture.png)
+![Screenshot](https://github.com/richasinhaa/Turing-Assignment/blob/master/src/main/resources/registration-login-data-flow.png)
 
 ### Restful Endpoints
 Request/Response Format Reference :
