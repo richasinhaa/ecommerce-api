@@ -25,7 +25,11 @@ public class AttributeController {
 	@Autowired
 	AttributeValueRepository attributeValueRepository;
 
-	// Get All Attributes
+	/**
+	 * Returns All Attributes
+	 * 
+	 * @return - List<Attribute>
+	 */
 	@GetMapping("")
 	public List<Attribute> getAllAttributes() {
 		List<Attribute> list = attributeRepository.findAll();
@@ -35,14 +39,24 @@ public class AttributeController {
 		return list;
 	}
 
-	// Get a Single Attribute
+	/**
+	 * Returns a Single Attribute
+	 *
+	 * @param attributeId - Attribute Id
+	 * @return - Attribute
+	 */
 	@GetMapping("/{attribute_id}")
 	public Attribute getAttributeById(@PathVariable(value = "attribute_id", required = true) Long attributeId) {
 		return attributeRepository.findById(attributeId).orElseThrow(
 				() -> new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500"));
 	}
 
-	// Get All Attribute Values
+	/**
+	 * Returns all attribute values for attribute id
+	 *
+	 * @param attributeId - Attribute Id
+	 * @return - List<AttributeValue>
+	 */
 	@GetMapping("/values/{attribute_id}")
 	public List<AttributeValue> getAllAttributeValuesById(
 			@PathVariable(value = "attribute_id", required = true) Long attributeId) {
@@ -52,16 +66,21 @@ public class AttributeController {
 		}
 		return list;
 	}
-	
-	// Get All Attribute Values For A Product Id
-		@GetMapping("/inProduct/{product_id}")
-		public List<ProductAttributeMap> getAllAttributeValuesForProduct(
-				@PathVariable(value = "product_id", required = true) Long productId) {
-			List<ProductAttributeMap> list = attributeValueRepository.findByProductId(productId);
-			if (list.isEmpty()) {
-				throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
-			}
-			return list;
+
+	/**
+	 * Returns all attribute values for product id
+	 *
+	 * @param productId - Product Id
+	 * @return - List<ProductAttributeMap>
+	 */
+	@GetMapping("/inProduct/{product_id}")
+	public List<ProductAttributeMap> getAllAttributeValuesForProduct(
+			@PathVariable(value = "product_id", required = true) Long productId) {
+		List<ProductAttributeMap> list = attributeValueRepository.findByProductId(productId);
+		if (list.isEmpty()) {
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
+		return list;
+	}
 
 }

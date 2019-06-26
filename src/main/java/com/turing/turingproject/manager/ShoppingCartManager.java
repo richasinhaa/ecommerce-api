@@ -21,7 +21,12 @@ public class ShoppingCartManager {
 	
 	@Autowired
 	ProductRepository productRepository;
-
+	
+	/**
+	 * Returns unique id
+	 *
+	 * @return - String
+	 */
 	public String generateUniqueId() {
 		UUID uuid = UUID.randomUUID();
 		String uniqueId = Long.toString(uuid.getMostSignificantBits(), 20) 
@@ -29,7 +34,15 @@ public class ShoppingCartManager {
 
 		return uniqueId;
 	}
-
+	
+	/**
+	 * Returns Shopping Cart after adding product to a cart
+	 *
+	 * @param cartId - Cart Id
+	 * @param productId - Product Id
+	 * @param attributes - Attributes
+	 * @return - ShoppingCart
+	 */
 	public ShoppingCart addProduct(String cartId, Long productId, String attributes) {
 		ShoppingCart cart = new ShoppingCart();
 		cart.setCartId(cartId);

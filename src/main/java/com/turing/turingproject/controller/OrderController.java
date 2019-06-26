@@ -33,17 +33,23 @@ public class OrderController {
 	@Autowired
 	OrderRepository orderRepository;
 
-	// Create a new Order
+	/**
+	 * Returns Order
+	 *
+	 * @param authentication - Authentication
+	 * @param request        - Order request
+	 * @return - ResponseEntity<String>
+	 */
 	@PostMapping("")
 	public ResponseEntity<String> createOrder(Authentication authentication, @Valid @RequestBody OrderRequest request) {
 		Long orderId = null;
 		try {
-			orderId = orderManager.createOrder(request,authentication);
+			orderId = orderManager.createOrder(request, authentication);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
-		
+
 		JSONObject json;
 		try {
 			json = new JSONObject();
@@ -55,7 +61,12 @@ public class OrderController {
 		return new ResponseEntity<String>(json.toString(), HttpStatus.OK);
 	}
 
-	// Get a Single Order
+	/**
+	 * Returns Order by order id
+	 *
+	 * @param orderId - Order Id
+	 * @return - ResponseEntity<String>
+	 */
 	@GetMapping("/{order_id}")
 	public ResponseEntity<String> getOrderById(@PathVariable(value = "order_id", required = true) Long orderId) {
 		Order order;
@@ -87,7 +98,12 @@ public class OrderController {
 
 	}
 
-	// Get Short Detail For Order
+	/**
+	 * Returns Short detail for order by order id
+	 *
+	 * @param orderId - Order Id
+	 * @return - ResponseEntity<String>
+	 */
 	@GetMapping("/shortDetail/{order_id}")
 	public ResponseEntity<String> getOrderDetailById(@PathVariable(value = "order_id", required = true) Long orderId) {
 		Order order;
@@ -119,22 +135,27 @@ public class OrderController {
 		return new ResponseEntity<String>(json.toString(), HttpStatus.OK);
 
 	}
-	
-	//Get Orders For Authenticated Customer
-		@GetMapping("/inCustomer")
-		public List<Order> getOrderForCustomer(Authentication authentication) {
-			List<Order> list = null;
-			try {
-				list = orderManager.getOrdersForCustomer(authentication);
-			} catch(Exception e) {
-				e.printStackTrace();
-				throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
-			}
-			
-			if(list == null) {
-				throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
-			}
-			
-			return list;
+
+	/**
+	 * Returns list of orders for authenticated customer
+	 *
+	 * @param authentication - Authentication
+	 * @return - List<Order>
+	 */
+	@GetMapping("/inCustomer")
+	public List<Order> getOrderForCustomer(Authentication authentication) {
+		List<Order> list = null;
+		try {
+			list = orderManager.getOrdersForCustomer(authentication);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
+
+		if (list == null) {
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
+		}
+
+		return list;
+	}
 }

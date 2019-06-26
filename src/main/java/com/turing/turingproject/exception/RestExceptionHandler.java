@@ -8,7 +8,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-  
+	
+	/**
+	 * Returns ResourceNotFoundException
+	 *
+	 * @param ce - Resource Not Found Exception
+	 * @return - ResourceNotFoundException
+	 */
 	@ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResourceNotFoundException handleCustomException(ResourceNotFoundException ce) {

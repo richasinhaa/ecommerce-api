@@ -14,7 +14,17 @@ public class StripeClient {
 	
 	@Value("${stripe.keys.secret}")
     private String API_SECRET_KEY;
-
+	
+	/**
+	 * Returns Charge
+	 *
+	 * @param token - Token
+	 * @param amount - Amount
+	 * @param orderId - Order Id
+	 * @param description - Description
+	 * @param currency - Currency
+	 * @return - Charge
+	 */
 	public Charge chargeCreditCard(String token, Integer amount, Long orderId, String description, String currency)
 			throws Exception {
 		Charge charge = null;

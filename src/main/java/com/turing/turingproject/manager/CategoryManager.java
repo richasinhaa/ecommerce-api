@@ -24,7 +24,15 @@ public class CategoryManager {
 
 	@Autowired
 	ProductCategoryRepository productCategoryRepository;
-
+	
+	/**
+	 * Returns all categories given order, page and limit
+	 *
+	 * @param order - Order
+	 * @param page - Page
+	 * @param limit - Limit
+	 * @return - Result
+	 */
 	public Result getAllCategories(String order, String page, String limit) {
 		int offset = 0;
 		if (page != null && Integer.parseInt(page) != 1) {
@@ -47,7 +55,13 @@ public class CategoryManager {
 
 		return categories;
 	}
-
+	
+	/**
+	 * Returns list of product category for a given product id
+	 *
+	 * @param productId - Product Id
+	 * @return - List<ProductCategory>
+	 */
 	public List<ProductCategory> getCategoriesOfProduct(Long productId) {
 		ProductCategory cat = productCategoryRepository.findById(productId).orElseThrow(
 				() -> new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500"));
@@ -57,7 +71,13 @@ public class CategoryManager {
 
 		return list;
 	}
-
+	
+	/**
+	 * Returns list of category for a given department id
+	 *
+	 * @param departmentId - Department Id
+	 * @return - List<Category>
+	 */
 	public List<Category> getCategoriesOfDepartment(Long departmentId) {
 		List<Category> list = categoryRepository.findByDepartmentId(departmentId);
 		

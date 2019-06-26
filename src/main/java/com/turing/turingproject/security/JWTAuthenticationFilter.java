@@ -31,7 +31,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	
 	@Autowired
 	AuthenticationManager authenticationManager;
-
+	
+	/**
+	 * Returns authentication
+	 *
+	 * @param req - Http Servlet Request
+	 * @param res - Http Servlet Response
+	 * @return - Authentication
+	 */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationServiceException {
@@ -50,6 +57,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
+    /**
+	 * Successful Authentication
+	 *
+	 * @param req - Http Servlet Request
+	 * @param res - Http Servlet Response
+	 * @param chain - Filter Chain
+	 * @param auth - Authentication
+	 */
     @Override
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,

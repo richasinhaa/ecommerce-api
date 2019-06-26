@@ -24,7 +24,14 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         super(authenticationManager);
         this.configurerParams = configurerParams;
     }
-
+    
+    /**
+	 * Do filter internal
+	 *
+	 * @param req - Http Servlet Request
+	 * @param res - Http Servlet Response
+	 * @param chain - Filter Chain
+	 */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String header = request.getHeader(configurerParams.getHeader());
@@ -44,7 +51,13 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request, response);
     }
-
+    
+    /**
+	 * Return username password authentication token
+	 *
+	 * @param req - Http Servlet Request
+	 * @return - UsernamePasswordAuthenticationToken
+	 */
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) throws JwtException, IllegalArgumentException {
         String token = request.getHeader(configurerParams.getHeader());
         if (token != null) {

@@ -20,7 +20,11 @@ public class ShippingRegionController {
 	@Autowired
 	ShippingRegionRepository shippingRegionRepository;
 
-	// Get All Shipping Regions
+	/**
+	 * Returns all shipping regions
+	 *
+	 * @return - List<ShippingRegion>
+	 */
 	@GetMapping("")
 	public List<ShippingRegion> getAllRegions() {
 		List<ShippingRegion> list = shippingRegionRepository.findAll();
@@ -30,7 +34,12 @@ public class ShippingRegionController {
 		return list;
 	}
 
-	// Get a Single Shipping Region By Id
+	/**
+	 * Returns a shipping region by id
+	 *
+	 * @param regionId - Shipping Region Id
+	 * @return - List<ShippingRegion>
+	 */
 	@GetMapping("/{shipping_region_id}")
 	public List<ShippingRegion> getRegionById(@PathVariable(value = "shipping_region_id", required = true) Long regionId) {
 		List<ShippingRegion> list = new ArrayList<ShippingRegion>();

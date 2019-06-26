@@ -19,13 +19,22 @@ public class DepartmentController {
 	@Autowired
 	DepartmentRepository departmentRepository;
 
-	// Get All Departments
+	/**
+	 * Returns all departments
+	 *
+	 * @return - List<Department>
+	 */
 	@GetMapping("/departments")
 	public List<Department> getAllDepartments() {
 		return departmentRepository.findAll();
 	}
 
-	// Get a Single Department
+	/**
+	 * Returns department by department id
+	 *
+	 * @param departmentId - Department Id
+	 * @return - Department
+	 */
 	@GetMapping("/departments/{department_id}")
 	public Department getDepartmentById(@PathVariable(value = "department_id", required = true) Long departmentId) {
 		return departmentRepository.findById(departmentId)

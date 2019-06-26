@@ -37,7 +37,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.configurerParams = configurerParams;
 	}
-
+	
+	/**
+	 * Configure authorized/unauthorized endpoints and other settings
+	 *
+	 * @param http - Http Security
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests()
@@ -62,7 +67,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				// this disables session creation on Spring Security
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
-
+	
+	/**
+	 * Configure
+	 *
+	 * @param auth - Authentication Manager Builder
+	 */
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(customerManager).passwordEncoder(bCryptPasswordEncoder);

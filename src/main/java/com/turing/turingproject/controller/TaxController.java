@@ -19,7 +19,11 @@ public class TaxController {
 	@Autowired
 	TaxRepository taxRepository;
 
-	// Get All Taxes
+	/**
+	 * Returns all taxes
+	 *
+	 * @return - List<Tax>
+	 */
 	@GetMapping("")
 	public List<Tax> getAllTaxes() {
 		List<Tax> list = taxRepository.findAll();
@@ -29,7 +33,12 @@ public class TaxController {
 		return list;
 	}
 
-	// Get a Single Tax
+	/**
+	 * Returns tax by id
+	 *
+	 * @param taxId - Tax Id
+	 * @return - Tax
+	 */
 	@GetMapping("/{tax_id}")
 	public Tax getTaxById(@PathVariable(value = "tax_id", required = true) Long taxId) {
 		return taxRepository.findById(taxId).orElseThrow(

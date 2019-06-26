@@ -46,7 +46,13 @@ public class OrderManager {
 	@Autowired
 	CustomerRepository customerRepository;
 	
-
+	/**
+	 * Returns order id after creating an order
+	 *
+	 * @param request - Order request
+	 * @param authentication - Authentication
+	 * @return - Long
+	 */
 	public Long createOrder(@Valid OrderRequest request, Authentication authentication) {
 		if(request == null || request.getCartId() == null || request.getShippingId() == null || request.getTaxId() == null) {
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
@@ -124,7 +130,12 @@ public class OrderManager {
 		return response.getOrderId();
 	}
 
-
+	/**
+	 * Returns list of orders for a customer
+	 *
+	 * @param authentication - Authentication
+	 * @return - List<Order>
+	 */
 	public List<Order> getOrdersForCustomer(Authentication authentication) {
 		String email = authentication.getPrincipal().toString();
 		Long customerId = null;

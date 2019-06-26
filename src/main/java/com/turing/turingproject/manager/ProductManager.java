@@ -24,7 +24,15 @@ public class ProductManager {
 	
 	@Autowired
 	ReviewRepository reviewRepository;
-
+	
+	/**
+	 * Returns all products given description length, page and limit
+	 *
+	 * @param descriptionLength - Description Length
+	 * @param page - Page
+	 * @param limit - Limit
+	 * @return - Result
+	 */
 	public Result getAllProducts(String descriptionLength, String page, String limit) {
 		int offset = 0;
 		if (page != null && Integer.parseInt(page) != 1) {
@@ -58,7 +66,17 @@ public class ProductManager {
 
 		return products;
 	}
-
+	
+	/**
+	 * Searches products given description length, page, limit, search and allWords
+	 *
+	 * @param descriptionLength - Description Length
+	 * @param page - Page
+	 * @param limit - Limit
+	 * @param search - Search String
+	 * @param allWords - All Words or Substring
+	 * @return - Result
+	 */
 	public Result searchProducts(String descriptionLength, String page, String limit, String search, String allWords) {
 		int offset = 0;
 		if (page != null && Integer.parseInt(page) != 1) {
@@ -101,7 +119,13 @@ public class ProductManager {
 
 		return products;
 	}
-
+	
+	/**
+	 * Returns product of a given category id
+	 *
+	 * @param categoryId - Category Id
+	 * @return - Result
+	 */
 	public Result getProductsOfCategory(Long categoryId) {
 		List<Product> list = new ArrayList<Product>();
 		list = productRepository.findProductsOfCategory(categoryId);
@@ -117,7 +141,13 @@ public class ProductManager {
 		return products;
 		
 	}
-
+	
+	/**
+	 * Returns product of a given department id
+	 *
+	 * @param departmentId - Department Id
+	 * @return - Result
+	 */
 	public Result getProductsOfDepartment(Long departmentId) {
 		List<Product> list = new ArrayList<Product>();
 		list = productRepository.findProductsOfDepartment(departmentId);
@@ -132,7 +162,13 @@ public class ProductManager {
 
 		return products;
 	}
-
+	
+	/**
+	 * Returns locations of a given product id
+	 *
+	 * @param productId - Product Id
+	 * @return - ProductLocation
+	 */
 	public ProductLocation getLocationsOfProduct(Long productId) {
 		ProductLocation productLocation = productRepository.findLocationsForProduct(productId);
 		if (productLocation == null) {
@@ -142,6 +178,12 @@ public class ProductManager {
 		return productLocation;
 	}
 	
+	/**
+	 * Returns reviews by product id
+	 *
+	 * @param productId - Product Id
+	 * @return - List<CustomerReview>
+	 */
 	public List<CustomerReview> getReviewsByProductId(Long productId) {
 		List<CustomerReview> customerReviews = reviewRepository.findByProductId(productId);
 		if (customerReviews.isEmpty()) {

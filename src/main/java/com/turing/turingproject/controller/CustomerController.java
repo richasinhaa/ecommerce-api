@@ -40,7 +40,12 @@ public class CustomerController {
 	@Autowired
 	ApplicationSecurityConfigurerParams configurerParams;
 
-	// Customer Registration
+	/**
+	 * Registers a customer
+	 *
+	 * @param user - User
+	 * @return - ResponseEntity<CustomerDTO>
+	 */
 	@PostMapping("/customers")
 	public ResponseEntity<CustomerDTO> signUp(@RequestBody Customer user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -65,7 +70,12 @@ public class CustomerController {
 		return new ResponseEntity<CustomerDTO>(dto, headers, HttpStatus.OK);
 	}
 
-	// Customer Login
+	/**
+	 * Customer Login
+	 *
+	 * @param user - User
+	 * @return - ResponseEntity<CustomerDTO>
+	 */
 	@PostMapping("/customers/login")
 	public ResponseEntity<CustomerDTO> login(@RequestBody Customer user) throws ResourceNotFoundException {
 
@@ -106,7 +116,13 @@ public class CustomerController {
 		return new ResponseEntity<CustomerDTO>(dto, headers, HttpStatus.OK);
 	}
 
-	// Update a Single Customer
+	/**
+	 * Returns updated customer
+	 *
+	 * @param customer - Customer
+	 * @param customerId - Customer Id
+	 * @return - Customer
+	 */
 	@PutMapping("/customer/{customer_id}")
 	public Customer updateCustomer(@RequestBody Customer customer,
 			@PathVariable(value = "customer_id", required = true) Long customerId) {
@@ -122,14 +138,24 @@ public class CustomerController {
 		return customer;
 	}
 
-	// Get a Single Customer
+	/**
+	 * Returns customer by customer id
+	 *
+	 * @param customerId - Customer Id
+	 * @return - Customer
+	 */
 	@GetMapping("/customer/{customer_id}")
 	public Customer getCustomerById(@PathVariable(value = "customer_id", required = true) Long customerId) {
 		return customerRepository.findById(customerId).orElseThrow(
 				() -> new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500"));
 	}
 
-	// Update Customer Address
+	/**
+	 * Returns customer with updated address
+	 *
+	 * @param customerId - Customer Id
+	 * @return - Customer
+	 */
 	@PutMapping("/customers/address/{customer_id}")
 	public Customer updateCustomerAddress(@RequestBody Customer customer,
 			@PathVariable(value = "customer_id", required = true) Long customerId) {
@@ -145,7 +171,12 @@ public class CustomerController {
 		return customer;
 	}
 
-	// Update Customer credit card
+	/**
+	 * Returns customer with updated credit card details
+	 *
+	 * @param customerId - Customer Id
+	 * @return - Customer
+	 */
 	@PutMapping("/customers/creditCard/{customer_id}")
 	public Customer updateCustomerCreditCard(@RequestBody Customer customer,
 			@PathVariable(value = "customer_id", required = true) Long customerId) {

@@ -14,6 +14,17 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	Customer findByName(String name);
 	Customer findByEmail(String email);
 	
+	/**
+	 * Updates customer
+	 *
+	 * @param customerId - Customer Id
+	 * @param name - Name
+	 * @param email - Email id
+	 * @param city - City
+	 * @param address1 - Address1
+	 * @param creditCard - Credit Card
+	 * @return - List<Category>
+	 */
 	@Modifying
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	@Query("UPDATE Customer c SET c.customerId = ?1, c.name = ?2, c.email = ?3,"

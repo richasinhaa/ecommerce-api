@@ -12,7 +12,14 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
+	
+	/**
+	 * Throws error message for unauthorised requests
+	 *
+	 * @param req - Http Servlet Request
+	 * @param res - Http Servlet Response
+	 * @param authException - Authentication Exception
+	 */
     @Override
     public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException authException) throws IOException, ServletException {
         res.setContentType("application/json;charset=UTF-8");

@@ -12,6 +12,12 @@ import com.turing.turingproject.model.Review;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 	
+	/**
+	 * Returns list of customer review by product id
+	 *
+	 * @param productId - Product Id
+	 * @return - List<CustomerReview>
+	 */
 	@Query("SELECT new com.turing.turingproject.model.CustomerReview("
 			+ "c.name as customerName, r.review as review,"
 			+ "r.rating as rating,r.createdOn as createdOn"

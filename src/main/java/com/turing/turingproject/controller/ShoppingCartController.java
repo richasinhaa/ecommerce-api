@@ -47,7 +47,11 @@ public class ShoppingCartController {
 	@Autowired
 	CustomerRepository customerRepository;
 
-	// Get Unique Cart Id
+	/**
+	 * Returns a unique cart id
+	 *
+	 * @return - ResponseEntity<String>
+	 */
 	@GetMapping("/generateUniqueId")
 	public ResponseEntity<String> createCart() throws JSONException {
 		String uniqueCartId = shoppingCartManager.generateUniqueId();
@@ -61,13 +65,23 @@ public class ShoppingCartController {
 		return new ResponseEntity<String>(json.toString(), HttpStatus.OK);
 	}
 
-	// Add Product To Cart
+	/**
+	 * Returns a shopping cart (add product to shopping cart)
+	 *
+	 * @param request - Create Order Request
+	 * @return - ShoppingCart
+	 */
 	@PostMapping("/add")
 	public ShoppingCart addProduct(@RequestBody CreateOrderRequest request) {
 		return shoppingCartManager.addProduct(request.getCartId(), request.getProductId(), request.getAttributes());
 	}
 
-	// Get Cart by Id
+	/**
+	 * Returns shopping cart by id
+	 *
+	 * @param cartId - Cart Id
+	 * @return - List<ShoppingCart>
+	 */
 	@GetMapping("/{cart_id}")
 	public List<ShoppingCart> getCartById(@PathVariable(value = "cart_id", required = true) String cartId) {
 		List<ShoppingCart> cart = shoppingCartRepository.findByCartId(cartId);
@@ -77,7 +91,12 @@ public class ShoppingCartController {
 		return cart;
 	}
 
-	// Update Cart Quantity By Id
+	/**
+	 * Returns list of shopping cart (update quantity)
+	 *
+	 * @param cartId - Cart Id
+	 * @return - List<ShoppingCart>
+	 */
 	@PutMapping("/update/{item_id}")
 	public List<ShoppingCart> createReview(@PathVariable(value = "item_id", required = true) Long itemId,
 			@Valid @RequestBody UpdateCartQuantityRequest request) {
@@ -95,7 +114,12 @@ public class ShoppingCartController {
 		return list;
 	}
 	
-	//Delete Cart By Cart Id
+	/**
+	 * Returns list of shopping cart (delete cart)
+	 *
+	 * @param cartId - Cart Id
+	 * @return - List<ShoppingCart>
+	 */
 	@DeleteMapping("/empty/{cart_id}")
 	public List<ShoppingCart> deleteCartById(@PathVariable(value = "cart_id", required = true) String cartId) {
 		try {
@@ -109,7 +133,12 @@ public class ShoppingCartController {
 		return result;
 	}
 	
-	//Get Total Amount By Cart Id
+	/**
+	 * Returns total amount by cart id
+	 *
+	 * @param cartId - Cart Id
+	 * @return - ResponseEntity<String>
+	 */
 	@GetMapping("/totalAmount/{cart_id}")
 	public ResponseEntity<String> getTotalAmountByCartId(@PathVariable(value = "cart_id", required = true) String cartId) {
 		List<ShoppingCart> list;
@@ -139,7 +168,11 @@ public class ShoppingCartController {
 		
 	}
 	
-	//Save A Product For Later (Buy Now flag = 0)
+	/**
+	 * Saves a product for later
+	 *
+	 * @param itemId - Item Id
+	 */
 	@GetMapping("/saveForLater/{item_id}")
 	public void saveAProductForLater(@PathVariable(value = "item_id", required = true) Long itemId) {
 		try {
@@ -149,7 +182,12 @@ public class ShoppingCartController {
 		}
 	}
 	
-	//Get Saved Products
+	/**
+	 * Returns all saved products by cart id
+	 *
+	 * @param cartId - Cart Id
+	 * @return - ResponseEntity<String>
+	 */
 	@GetMapping("/getSaved/{cart_id}")
 	public ResponseEntity<String> getSavedForLater(@PathVariable(value = "cart_id", required = true) String cartId) {
 		ShoppingCart cart = null;
@@ -187,7 +225,12 @@ public class ShoppingCartController {
 		return new ResponseEntity<String>(json.toString(), HttpStatus.OK);
 	}
 	
-	//Remove An Item In A Cart
+	/**
+	 * Removes an item from a cart by item id
+	 *
+	 * @param itemId - Item Id
+	 * @return - ResponseEntity<String>
+	 */
 	@DeleteMapping("/removeProduct/{item_id}")
 	public void removeProductFromCart(@PathVariable(value = "item_id", required = true) Long itemId) {
 		try {

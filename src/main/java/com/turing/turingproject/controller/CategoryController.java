@@ -27,7 +27,12 @@ public class CategoryController {
 	@Autowired
 	CategoryRepository categoryRepository;
 
-	// Get All Categories
+	/**
+	 * Returns all categories
+	 *
+	 * @param requestParams - Request Param
+	 * @return - Result
+	 */
 	@GetMapping("")
 	public Result getAllCategories(@RequestParam Map<String, String> requestParams) {
 		String order = requestParams.get("order");
@@ -37,22 +42,39 @@ public class CategoryController {
 		return categoryManager.getAllCategories(order, page, limit);
 	}
 
-	// Get a Single Category
+	/**
+	 * Returns a Single category
+	 *
+	 * @param categoryId - Category Id
+	 * @return - Category
+	 */
 	@GetMapping("/{category_id}")
 	public Category getCategoryById(@PathVariable(value = "category_id", required = true) Long categoryId) {
 		return categoryRepository.findById(categoryId).orElseThrow(
 				() -> new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500"));
 	}
 
-	// Get categories of a product
+	/**
+	 * Returns all categories of a product id
+	 *
+	 * @param productId - Product Id
+	 * @return - List<ProductCategory>
+	 */
 	@GetMapping("/inProduct/{product_id}")
-	public List<ProductCategory> getCategoriesOfProduct(@PathVariable(value = "product_id", required = true) Long productId) {
+	public List<ProductCategory> getCategoriesOfProduct(
+			@PathVariable(value = "product_id", required = true) Long productId) {
 		return categoryManager.getCategoriesOfProduct(productId);
 	}
-	
-	// Get categories from a Department ID
-		@GetMapping("/inDepartment/{department_id}")
-		public List<Category> getCategoriesOfDepartment(@PathVariable(value = "department_id", required = true) Long departmentId) {
-			return categoryManager.getCategoriesOfDepartment(departmentId);
-		}
+
+	/**
+	 * Returns all categories of a department id
+	 *
+	 * @param departmentId - Department Id
+	 * @return - List<Category>
+	 */
+	@GetMapping("/inDepartment/{department_id}")
+	public List<Category> getCategoriesOfDepartment(
+			@PathVariable(value = "department_id", required = true) Long departmentId) {
+		return categoryManager.getCategoriesOfDepartment(departmentId);
+	}
 }

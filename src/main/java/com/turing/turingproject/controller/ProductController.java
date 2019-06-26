@@ -40,11 +40,16 @@ public class ProductController {
 
 	@Autowired
 	ReviewRepository reviewRepository;
-	
+
 	@Autowired
 	CustomerRepository customerRepository;
 
-	// Get All Products
+	/**
+	 * Returns all products
+	 *
+	 * @param requestParams - Request parameters
+	 * @return - Result
+	 */
 	@GetMapping("")
 	public Result getAllProducts(@RequestParam Map<String, String> requestParams) {
 		String descriptionLength = requestParams.get("description_length");
@@ -54,7 +59,12 @@ public class ProductController {
 		return productManager.getAllProducts(descriptionLength, page, limit);
 	}
 
-	// Search Product
+	/**
+	 * Searches for products
+	 *
+	 * @param requestParams - Request parameters
+	 * @return - Result
+	 */
 	@GetMapping("/search")
 	public Result searchProducts(@RequestParam Map<String, String> requestParams) {
 		String descriptionLength = requestParams.get("description_length");
@@ -66,59 +76,93 @@ public class ProductController {
 		return productManager.searchProducts(descriptionLength, page, limit, search, allWords);
 	}
 
-	// Get a Single Product
+	/**
+	 * Returns a single product by product id
+	 *
+	 * @param productId - Product Id
+	 * @return - Product
+	 */
 	@GetMapping("/{product_id}")
 	public Product getProductById(@PathVariable(value = "product_id", required = true) Long productId) {
 		return productRepository.findById(productId).orElseThrow(
 				() -> new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500"));
 	}
 
-	// Get products of a category
+	/**
+	 * Returns a single product for a category id
+	 *
+	 * @param categoryId - Category Id
+	 * @return - Result
+	 */
 	@GetMapping("/inCategory/{category_id}")
 	public Result getProductsOfCategory(@PathVariable(value = "category_id", required = true) Long categoryId) {
 		return productManager.getProductsOfCategory(categoryId);
 	}
 
-	// Get products of a department
+	/**
+	 * Returns a single product for a department id
+	 *
+	 * @param departmentId - Department Id
+	 * @return - Result
+	 */
 	@GetMapping("/inDepartment/{department_id}")
 	public Result getProductsOfDepartment(@PathVariable(value = "department_id", required = true) Long departmentId) {
 		return productManager.getProductsOfDepartment(departmentId);
 	}
 
-	// Get Details of a Single Product
+	/**
+	 * Returns details of a single product by product id
+	 *
+	 * @param productId - Product Id
+	 * @return - Product
+	 */
 	@GetMapping("/details/{product_id}")
 	public Product getProductDetailsById(@PathVariable(value = "product_id", required = true) Long productId) {
 		return productRepository.findById(productId).orElseThrow(
 				() -> new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500"));
 	}
 
-	// Get Locations of a Single Product
+	/**
+	 * Returns location of a single product by product id
+	 *
+	 * @param productId - Product Id
+	 * @return - ProductLocation
+	 */
 	@GetMapping("/{product_id}/locations")
 	public ProductLocation getProductLocationsById(
 			@PathVariable(value = "product_id", required = true) Long productId) {
 		return productManager.getLocationsOfProduct(productId);
 	}
 
-	// Get Reviews For A Product
+	/**
+	 * Returns reviews of a single product by product id
+	 *
+	 * @param productId - Product Id
+	 * @return - List<CustomerReview>
+	 */
 	@GetMapping("/{product_id}/reviews")
 	public List<CustomerReview> getReviewsByProductId(
 			@PathVariable(value = "product_id", required = true) Long productId) {
 		return productManager.getReviewsByProductId(productId);
 	}
 
-	// Create a new Review
+	/**
+	 * Creates review for a product id
+	 *
+	 * @param productId - Product Id
+	 */
 	@PostMapping("/{product_id}/reviews")
 	public void createReview(@PathVariable(value = "product_id", required = true) Long productId,
 			@Valid @RequestBody Review review, Authentication authentication) {
 		review.setProductId(productId);
 		review.setCreatedOn(new Date());
-		
-		//Fetch Authenticated User Id
+
+		// Fetch Authenticated User Id
 		try {
 			String email = authentication.getPrincipal().toString();
 			Customer customer = customerRepository.findByEmail(email);
 			review.setCustomerId(customer.getCustomerId());
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		try {
