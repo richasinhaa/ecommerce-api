@@ -145,7 +145,7 @@ public class CustomerController {
 		return customer;
 	}
 
-	// Update Customer Address
+	// Update Customer credit card
 	@PutMapping("/customers/creditCard/{customer_id}")
 	public Customer updateCustomerCreditCard(@RequestBody Customer customer,
 			@PathVariable(value = "customer_id", required = true) Long customerId) {

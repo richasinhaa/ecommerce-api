@@ -23,10 +23,6 @@ public class CustomerManager implements UserDetailsService {
 		if (customer == null) {
 			throw new UsernameNotFoundException(username);
 		}
-		/*return new Customer(customer.getName(), customer.getEmail(), customer.getPassword(), customer.getCreditCard(),
-				customer.getAddress1(), customer.getAddress2(), customer.getCity(), customer.getRegion(),
-				customer.getPostalCode(), customer.getShippingRegionId(), customer.getDayPhone(),
-				customer.getEvePhone(), customer.getMobPhone()); */
 		
 		return new User(customer.getName(), customer.getPassword(), emptyList());
 	}

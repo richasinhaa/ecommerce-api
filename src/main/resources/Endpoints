@@ -261,4 +261,14 @@ Request:
 [POST] /stripe/webhooks
 
 
+1) Customer update, use JWT token
+2) Increase the number of Testcases
+3) System doc, API doc
+4) Code comments are missing
+5) Total count in the product list needs to be updated
+6) Fix all the product API - verify with the params: limit , page, category, depart
+7) Fix Add to Cart API with same product id and attributes
+8) Clean shopping cart after the order is is generated
+
+
 
