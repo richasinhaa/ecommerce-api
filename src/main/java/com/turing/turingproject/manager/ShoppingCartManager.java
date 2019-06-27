@@ -44,26 +44,39 @@ public class ShoppingCartManager {
 	 * @return - ShoppingCart
 	 */
 	public ShoppingCart addProduct(String cartId, Long productId, String attributes) {
+		/*check if product_id exists in cart
+		 * if exists :: increase the quantity
+		 * if not exists :: create a new row in shopping_cart
+		 */
 		ShoppingCart cart = new ShoppingCart();
-		cart.setCartId(cartId);
-		cart.setAddedOn(new Date());
-		cart.setAttributes(attributes);
-		cart.setProductId(productId);
-		cart.setQuantity(1);
-		String image = null;
-		Double subtotal = 0.0;
-		Product p = productRepository.findById(productId).get();
-		if(p == null) {
-			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
+		ShoppingCart existingItemInCart = shoppingCartRepository.findByCartIdAndProductId(cartId, productId);
+		if(existingItemInCart != null) {
+			int quantity = existingItemInCart.getQuantity();
+			quantity = quantity + 1;
+			existingItemInCart.setQuantity(quantity);
+			cart = existingItemInCart;
 		} else {
-			image = p.getImage();
-			Double price = p.getPrice();
-			if(price != null) {
-				subtotal = price*cart.getQuantity();
+			cart.setCartId(cartId);
+			cart.setAddedOn(new Date());
+			cart.setAttributes(attributes);
+			cart.setProductId(productId);
+			cart.setQuantity(1);
+			String image = null;
+			Double subtotal = 0.0;
+			Product p = productRepository.findById(productId).get();
+			if(p == null) {
+				throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
+			} else {
+				image = p.getImage();
+				Double price = p.getPrice();
+				if(price != null) {
+					subtotal = price*cart.getQuantity();
+				}
+				cart.setSubTotal(subtotal);
+				cart.setImage(image);
 			}
-			cart.setSubTotal(subtotal);
-			cart.setImage(image);
 		}
+		
 		try {
 			shoppingCartRepository.save(cart);
 		} catch (Exception e) {

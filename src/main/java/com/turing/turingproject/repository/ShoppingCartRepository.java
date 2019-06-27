@@ -55,5 +55,15 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long
 	 */
 	@Query("SELECT s FROM ShoppingCart s WHERE buyNow = 0 and cartId = ?1")
 	ShoppingCart findSavedForLaterByCartId(String cartId);
+	
+	/**
+	 * Returns ShoppingCart
+	 *
+	 * @param cartId - Cart Id
+	 * @param productId - Product Id
+	 * @return - ShoppingCart
+	 */
+	@Query("SELECT s FROM ShoppingCart s WHERE cartId = ?1 and productId = ?2")
+	ShoppingCart findByCartIdAndProductId(String cartId, Long productId);
 
 }
