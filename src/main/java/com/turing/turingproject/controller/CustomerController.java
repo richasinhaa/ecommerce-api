@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -119,77 +120,85 @@ public class CustomerController {
 	/**
 	 * Returns updated customer
 	 *
+	 * @param authentication - Authentication
 	 * @param customer - Customer
-	 * @param customerId - Customer Id
 	 * @return - Customer
 	 */
-	@PutMapping("/customer/{customer_id}")
-	public Customer updateCustomer(@RequestBody Customer customer,
-			@PathVariable(value = "customer_id", required = true) Long customerId) {
-
-		Optional<Customer> cust = customerRepository.findById(customerId);
-
-		if (!cust.isPresent())
+	@PutMapping("/customer")
+	public Customer updateCustomer(Authentication authentication, @RequestBody Customer customer) {
+		//Get Authenticated user email for fetching customer id
+	    String email = authentication.getPrincipal().toString();
+	    Customer cust = customerRepository.findByEmail(email);
+	    
+		if (cust == null)
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 
-		customerRepository.updateCustomer(customerId, customer.getName(), customer.getEmail(), customer.getCity(),
+		customerRepository.updateCustomer(cust.getCustomerId(), customer.getName(), customer.getEmail(), customer.getCity(),
 				customer.getAddress1(), customer.getCreditCard());
 
 		return customer;
 	}
 
 	/**
-	 * Returns customer by customer id
+	 * Returns authenticated customer
 	 *
-	 * @param customerId - Customer Id
+	 * @param authentication - Authentication
 	 * @return - Customer
 	 */
-	@GetMapping("/customer/{customer_id}")
-	public Customer getCustomerById(@PathVariable(value = "customer_id", required = true) Long customerId) {
-		return customerRepository.findById(customerId).orElseThrow(
-				() -> new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500"));
+	@GetMapping("/customer")
+	public Customer getCustomerById(Authentication authentication) {
+		//Get Authenticated user email for fetching customer id
+	    String email = authentication.getPrincipal().toString();
+	    Customer cust = customerRepository.findByEmail(email);
+	    
+	    if (cust == null)
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
+	    
+		return cust;
 	}
 
 	/**
 	 * Returns customer with updated address
 	 *
-	 * @param customerId - Customer Id
+	 * @param authentication - Authentication
+	 * @param customer - Customer
 	 * @return - Customer
 	 */
-	@PutMapping("/customers/address/{customer_id}")
-	public Customer updateCustomerAddress(@RequestBody Customer customer,
-			@PathVariable(value = "customer_id", required = true) Long customerId) {
+	@PutMapping("/customers/address")
+	public Customer updateCustomerAddress(Authentication authentication, @RequestBody Customer customer) {
+		//Get Authenticated user email for fetching customer id
+	    String email = authentication.getPrincipal().toString();
+	    Customer cust = customerRepository.findByEmail(email);
 
-		Optional<Customer> cust = customerRepository.findById(customerId);
-
-		if (!cust.isPresent())
+		if (cust == null)
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 
-		customerRepository.updateCustomer(customerId, customer.getName(), customer.getEmail(), customer.getCity(),
+		customerRepository.updateCustomer(cust.getCustomerId(), cust.getName(), cust.getEmail(), customer.getCity(),
 				customer.getAddress1(), customer.getCreditCard());
 
-		return customer;
+		return customerRepository.findByEmail(email);
 	}
 
 	/**
 	 * Returns customer with updated credit card details
 	 *
-	 * @param customerId - Customer Id
+	 * @param authentication - Authentication
+	 * @param customer - Customer
 	 * @return - Customer
 	 */
-	@PutMapping("/customers/creditCard/{customer_id}")
-	public Customer updateCustomerCreditCard(@RequestBody Customer customer,
-			@PathVariable(value = "customer_id", required = true) Long customerId) {
+	@PutMapping("/customers/creditCard")
+	public Customer updateCustomerCreditCard(Authentication authentication, @RequestBody Customer customer) {
+		//Get Authenticated user email for fetching customer id
+	    String email = authentication.getPrincipal().toString();
+	    Customer cust = customerRepository.findByEmail(email);
 
-		Optional<Customer> cust = customerRepository.findById(customerId);
-
-		if (!cust.isPresent())
+		if (cust == null)
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 
-		customerRepository.updateCustomer(customerId, customer.getName(), customer.getEmail(), customer.getCity(),
-				customer.getAddress1(), customer.getCreditCard());
+		customerRepository.updateCustomer(cust.getCustomerId(), cust.getName(), cust.getEmail(), cust.getCity(),
+				cust.getAddress1(), customer.getCreditCard());
 
-		return customer;
+		return customerRepository.findByEmail(email);
 	}
 
 }
