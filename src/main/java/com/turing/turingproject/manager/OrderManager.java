@@ -127,6 +127,15 @@ public class OrderManager {
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "300");
 		}
 		
+		/**
+		 * Delete cart after successful order creation
+		 */
+		try {
+			cartRepository.deleteByCartId(cart.getCartId());
+		} catch(Exception e) {
+			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
+		}
+		
 		return response.getOrderId();
 	}
 
