@@ -92,22 +92,34 @@ public class ProductController {
 	 * Returns a single product for a category id
 	 *
 	 * @param categoryId - Category Id
+	 * @param requestParams - Request parameters
 	 * @return - Result
 	 */
 	@GetMapping("/inCategory/{category_id}")
-	public Result getProductsOfCategory(@PathVariable(value = "category_id", required = true) Long categoryId) {
-		return productManager.getProductsOfCategory(categoryId);
+	public Result getProductsOfCategory(@PathVariable(value = "category_id", required = true) Long categoryId, 
+			@RequestParam Map<String, String> requestParams) {
+		String descriptionLength = requestParams.get("description_length");
+		String page = requestParams.get("page");
+		String limit = requestParams.get("limit");
+		
+		return productManager.getProductsOfCategory(categoryId, descriptionLength, page, limit);
 	}
 
 	/**
 	 * Returns a single product for a department id
 	 *
 	 * @param departmentId - Department Id
+	 * @param requestParams - Request parameters
 	 * @return - Result
 	 */
 	@GetMapping("/inDepartment/{department_id}")
-	public Result getProductsOfDepartment(@PathVariable(value = "department_id", required = true) Long departmentId) {
-		return productManager.getProductsOfDepartment(departmentId);
+	public Result getProductsOfDepartment(@PathVariable(value = "department_id", required = true) Long departmentId,
+			@RequestParam Map<String, String> requestParams) {
+		String descriptionLength = requestParams.get("description_length");
+		String page = requestParams.get("page");
+		String limit = requestParams.get("limit");
+		
+		return productManager.getProductsOfDepartment(departmentId, descriptionLength, page, limit);
 	}
 
 	/**

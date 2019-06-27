@@ -39,10 +39,6 @@ public class CategoryManager {
 			offset = Integer.parseInt(page) * 20; // PageSize = 20
 		}
 
-		/*if (order == null || order.equals("category_id")) {
-			order = "categoryId";
-		}*/
-
 		limit = (limit == null) ? "20" : limit;
 		order = (order == null) ? "categoryId" : order;
 
@@ -50,7 +46,7 @@ public class CategoryManager {
 		List<Category> list = categoryRepository.findAll(pageable).getContent();
 
 		Result categories = new Result();
-		categories.setCount(list.size());
+		categories.setCount(categoryRepository.getCountOfCategories());
 		categories.setRows(list);
 
 		return categories;

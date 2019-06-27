@@ -20,4 +20,12 @@ public interface CategoryRepository extends JpaRepository<Category, Long>  {
 	@Query("SELECT c FROM Category c where c.departmentId = ?1") 
     List<Category> findByDepartmentId(Long id);
 	
+	/**
+	 * Returns count of category
+	 *
+	 * @return - Integer
+	 */
+	@Query("SELECT COUNT(*) FROM Category c") 
+	int getCountOfCategories();
+	
 }

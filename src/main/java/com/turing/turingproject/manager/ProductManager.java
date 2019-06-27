@@ -61,7 +61,7 @@ public class ProductManager {
 		}
 
 		Result products = new Result();
-		products.setCount(list.size());
+		products.setCount(productRepository.getCountOfProducts());
 		products.setRows(list);
 
 		return products;
@@ -112,9 +112,16 @@ public class ProductManager {
 					p.setDescription(des);
 				}
 		}
+		
+		int count = 0;
+		if(allWords.equals("on")) {
+			count = productRepository.findCountAllWords(search);
+		} else {
+			count = productRepository.findCountLike(search);
+		}
 
 		Result products = new Result();
-		products.setCount(list.size());
+		products.setCount(count);
 		products.setRows(list);
 
 		return products;
@@ -124,18 +131,34 @@ public class ProductManager {
 	 * Returns product of a given category id
 	 *
 	 * @param categoryId - Category Id
+	 * @param limit 
+	 * @param page 
+	 * @param descriptionLength 
 	 * @return - Result
 	 */
-	public Result getProductsOfCategory(Long categoryId) {
+	public Result getProductsOfCategory(Long categoryId, String descriptionLength, String page, String limit) {
+		int offset = 0;
+		if (page != null && Integer.parseInt(page) != 1) {
+			offset = Integer.parseInt(page) * 20; // PageSize = 20
+		}
+		
+		limit = (limit == null) ? "20" : limit;
+		
+		descriptionLength = descriptionLength == null ? "200" : descriptionLength;
+
+		Pageable pageable = PageRequest.of(Integer.valueOf(offset), Integer.valueOf(limit));
+		
 		List<Product> list = new ArrayList<Product>();
-		list = productRepository.findProductsOfCategory(categoryId);
+		list = productRepository.findProductsOfCategory(categoryId, pageable);
 		
 		if (list.isEmpty()) {
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 		
+		int count = productRepository.findProductsOfCategoryCount(categoryId);
+		
 		Result products = new Result();
-		products.setCount(list.size());
+		products.setCount(count);
 		products.setRows(list);
 
 		return products;
@@ -146,18 +169,34 @@ public class ProductManager {
 	 * Returns product of a given department id
 	 *
 	 * @param departmentId - Department Id
+	 * @param limit 
+	 * @param page 
+	 * @param descriptionLength 
 	 * @return - Result
 	 */
-	public Result getProductsOfDepartment(Long departmentId) {
+	public Result getProductsOfDepartment(Long departmentId, String descriptionLength, String page, String limit) {
+		int offset = 0;
+		if (page != null && Integer.parseInt(page) != 1) {
+			offset = Integer.parseInt(page) * 20; // PageSize = 20
+		}
+		
+		limit = (limit == null) ? "20" : limit;
+		
+		descriptionLength = descriptionLength == null ? "200" : descriptionLength;
+
+		Pageable pageable = PageRequest.of(Integer.valueOf(offset), Integer.valueOf(limit));
+		
 		List<Product> list = new ArrayList<Product>();
-		list = productRepository.findProductsOfDepartment(departmentId);
+		list = productRepository.findProductsOfDepartment(departmentId, pageable);
 		
 		if (list.isEmpty()) {
 			throw new ResourceNotFoundException("USR_02", "The field example is empty.", "example", "500");
 		}
 		
+		int count = productRepository.findProductsOfDepartmentCount(departmentId);
+		
 		Result products = new Result();
-		products.setCount(list.size());
+		products.setCount(count);
 		products.setRows(list);
 
 		return products;
