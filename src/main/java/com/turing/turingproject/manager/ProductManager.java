@@ -34,14 +34,10 @@ public class ProductManager {
 	 * @return - Result
 	 */
 	public Result getAllProducts(String descriptionLength, String page, String limit) {
-		int offset = 0;
-		if (page != null && Integer.parseInt(page) != 1) {
-			offset = Integer.parseInt(page) * 20; // PageSize = 20
-		}
-
 		limit = (limit == null) ? "20" : limit;
-
-		Pageable pageable = PageRequest.of(Integer.valueOf(offset), Integer.valueOf(limit));
+		page = (page == null) ? "1" : page;
+		
+		Pageable pageable = PageRequest.of((Integer.valueOf(page) - 1), Integer.valueOf(limit));
 		List<Product> list = productRepository.findAll(pageable).getContent();
 
 		if (list.isEmpty()) {
@@ -78,18 +74,14 @@ public class ProductManager {
 	 * @return - Result
 	 */
 	public Result searchProducts(String descriptionLength, String page, String limit, String search, String allWords) {
-		int offset = 0;
-		if (page != null && Integer.parseInt(page) != 1) {
-			offset = Integer.parseInt(page) * 20; // PageSize = 20
-		}
-
 		limit = (limit == null) ? "20" : limit;
+		page = (page == null) ? "1" : page;
 		
 		allWords = (limit == null) ? "on" : "off";
 		
 		descriptionLength = descriptionLength == null ? "200" : descriptionLength;
 
-		Pageable pageable = PageRequest.of(Integer.valueOf(offset), Integer.valueOf(limit));
+		Pageable pageable = PageRequest.of((Integer.valueOf(page) -1), Integer.valueOf(limit));
 		
 		List<Product> list = new ArrayList<Product>();
 		
@@ -137,16 +129,12 @@ public class ProductManager {
 	 * @return - Result
 	 */
 	public Result getProductsOfCategory(Long categoryId, String descriptionLength, String page, String limit) {
-		int offset = 0;
-		if (page != null && Integer.parseInt(page) != 1) {
-			offset = Integer.parseInt(page) * 20; // PageSize = 20
-		}
-		
 		limit = (limit == null) ? "20" : limit;
+		page = (page == null) ? "1" : page;
 		
 		descriptionLength = descriptionLength == null ? "200" : descriptionLength;
 
-		Pageable pageable = PageRequest.of(Integer.valueOf(offset), Integer.valueOf(limit));
+		Pageable pageable = PageRequest.of((Integer.valueOf(page) - 1), Integer.valueOf(limit));
 		
 		List<Product> list = new ArrayList<Product>();
 		list = productRepository.findProductsOfCategory(categoryId, pageable);
@@ -175,16 +163,12 @@ public class ProductManager {
 	 * @return - Result
 	 */
 	public Result getProductsOfDepartment(Long departmentId, String descriptionLength, String page, String limit) {
-		int offset = 0;
-		if (page != null && Integer.parseInt(page) != 1) {
-			offset = Integer.parseInt(page) * 20; // PageSize = 20
-		}
-		
 		limit = (limit == null) ? "20" : limit;
+		page = (page == null) ? "1" : page;
 		
 		descriptionLength = descriptionLength == null ? "200" : descriptionLength;
 
-		Pageable pageable = PageRequest.of(Integer.valueOf(offset), Integer.valueOf(limit));
+		Pageable pageable = PageRequest.of((Integer.valueOf(page) - 1), Integer.valueOf(limit));
 		
 		List<Product> list = new ArrayList<Product>();
 		list = productRepository.findProductsOfDepartment(departmentId, pageable);

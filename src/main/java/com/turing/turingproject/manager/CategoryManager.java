@@ -34,15 +34,11 @@ public class CategoryManager {
 	 * @return - Result
 	 */
 	public Result getAllCategories(String order, String page, String limit) {
-		int offset = 0;
-		if (page != null && Integer.parseInt(page) != 1) {
-			offset = Integer.parseInt(page) * 20; // PageSize = 20
-		}
-
 		limit = (limit == null) ? "20" : limit;
+		page = (page == null) ? "1" : page;
 		order = (order == null) ? "categoryId" : order;
 
-		Pageable pageable = PageRequest.of(Integer.valueOf(offset), Integer.valueOf(limit), Sort.by(order).ascending());
+		Pageable pageable = PageRequest.of((Integer.valueOf(page) - 1), Integer.valueOf(limit), Sort.by(order).ascending());
 		List<Category> list = categoryRepository.findAll(pageable).getContent();
 
 		Result categories = new Result();
