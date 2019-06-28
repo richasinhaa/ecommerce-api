@@ -23,7 +23,7 @@ mvn spring-boot:run
 ![Screenshot](https://github.com/richasinhaa/Turing-Assignment/blob/master/src/main/resources/registration-login-design.png)
 ![Screenshot](https://github.com/richasinhaa/Turing-Assignment/blob/master/src/main/resources/system-design.png)
 
-## Running the application
+## API Documentation
 
 http://turingapplication-env.sgdg2qhxas.ap-southeast-1.elasticbeanstalk.com/swagger-ui.html
 
