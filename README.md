@@ -4,16 +4,17 @@ Backend service for an e-commerce system which allows users to search, add items
 
 * Java
 * Spring Boot
+* Spring-data-jpa
 * Maven
 * Mysql
 
-### Installation and running the service
+### Installation
 
 * Install Java
 * Install Maven
-* Install Mysql
-* Create spring boot stub using SpringInitializr (https://start.spring.io/)
+* Install Mysql (configuration details : src/main/resources/application.properties)
 * Import project in IDE
+* Build the project
 
 ## Running the application
 
