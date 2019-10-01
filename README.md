@@ -26,5 +26,5 @@ mvn spring-boot:run
 
 ## API Documentation
 
-http://turingapplication-env.sgdg2qhxas.ap-southeast-1.elasticbeanstalk.com/swagger-ui.html
+http://[server]:[port]/swagger-ui.html
 
