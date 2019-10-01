@@ -1,3 +1,6 @@
+# Demo for Java/SpringBoot restful api development (Backend API for ecommerce website)
+## Developed using Java, SpringBoot framework, Spring Data, Maven dependency manager and Mysql database
+
 Backend service for an e-commerce system which allows users to search, add items to their shopping cart, create orders, and checkout successfully.
 
 ## Technology Stack
